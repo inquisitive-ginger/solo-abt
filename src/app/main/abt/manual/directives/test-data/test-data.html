@@ -1,0 +1,81 @@
+<ng-form class="md-inline-form pv-10 ph-16" name="envDetailsForm" novalidate>
+	<span class="md-subhead">Environmental Data</span>
+	<div class="ml-10 mr-10" layout="column" flex>
+		<div layout="row">
+			<md-input-container flex>
+				<input type="number" ng-model="settings.initialBaselinePressure" name="initialBaselinePressure" placeholder="Initial Baseline (Pa)">
+				<div ng-messages="envDetailsForm.initialBaselinePressure.$error" role="alert">
+                    <div ng-message="required">
+                        <span>This field is required.</span>
+                    </div>
+                </div>
+			</md-input-container>
+
+			<md-input-container flex>
+				<input type="number" ng-model="settings.finalBaselinePressure" name="finalBaselinePressure" placeholder="Final Baseline (Pa)">
+				<div ng-messages="envDetailsForm.finalBaselinePressure.$error" role="alert">
+                    <div ng-message="required">
+                        <span>This field is required.</span>
+                    </div>
+                </div>
+			</md-input-container>
+		</div>
+
+		<div layout="row">
+			<md-input-container flex>
+				<input type="number" ng-model="settings.initialInsideTemp" name="initialInsideTemp" placeholder="Initial Inside Temperature (&#176;F)" >
+				<div ng-messages="envDetailsForm.initialInsideTemp.$error" role="alert">
+					<div ng-message="required">
+						<span>This field is required.</span>
+					</div>
+				</div>
+			</md-input-container>
+
+			<md-input-container flex>
+				<input type="number" ng-model="settings.finalInsideTemp" name="finalInsideTemp" placeholder="Final Inside Temperature (&#176;F)" >
+				<div ng-messages="envDetailsForm.finalInsideTemp.$error" role="alert">
+					<div ng-message="required">
+						<span>This field is required.</span>
+					</div>
+				</div>
+			</md-input-container>
+		</div>
+
+		<div layout="row">
+			<md-input-container flex>
+				<input type="number" ng-model="settings.initialOutsideTemp" name="initialOutsideTemp" placeholder="Initial Outside Temperature (&#176;F)" >
+				<div ng-messages="envDetailsForm.initialOutsideTemp.$error" role="alert">
+					<div ng-message="required">
+						<span>This field is required.</span>
+					</div>
+				</div>
+			</md-input-container>
+
+			<md-input-container flex>
+				<input type="number" ng-model="settings.finalOutsideTemp" name="finalOutsideTemp" placeholder="Final Outside Temperature (&#176;F)" >
+				<div ng-messages="envDetailsForm.finalInsideTemp.$error" role="alert">
+					<div ng-message="required">
+						<span>This field is required.</span>
+					</div>
+				</div>
+			</md-input-container>
+		</div>
+	</div>
+</ng-form>
+
+<div class="border-bottom md-primary-bg md-hue-1"></div>
+
+<div layout="column" class="pt-15">
+	<span class="md-subhead ml-15">Pressure &amp; Flow Data</span>
+	<div layout="row" layout-align="start space-between" layout-wrap flex="100">
+		<ms-widget 	flippable="false"
+					dir-paginate="level in settings.levels | itemsPerPage: 5"
+					flex="100" 
+					flex-gt-xs="50" 
+					flex-gt-md="20"
+					pagination-id="level-pagination">
+			<pressure-level target="level" fan-list="settings.fanList" data="data"></pressure-level>
+		</ms-widget>
+	</div>
+	<dir-pagination-controls class="pagination" pagination-id="level-pagination" layout="column" layout-align="center center"></dir-pagination-controls>
+</div>

@@ -1,0 +1,55 @@
+{
+	"standards": [
+		{
+			"name": "ASTM E779",
+			"start_pressure": 30,
+			"stop_pressure": 75,
+			"num_steps": 10,
+			"averaging_interval": 10,
+			"hold_time": 20,
+			"reference_pressure": 75,
+			"baseline_type": 0
+		},{
+			"name": "ASTM 1827",
+			"start_pressure": 12.5,
+			"stop_pressure": 50,
+			"num_steps": 2,
+			"averaging_interval": 30,
+			"hold_time": 30,
+			"reference_pressure": 50,
+			"baseline_type": 2
+			
+		},{
+
+			"name": "USACE",
+			"start_pressure": 30,
+			"stop_pressure": 80,
+			"num_steps": 10,
+			"averaging_interval": 20,
+			"hold_time": 30,
+			"reference_pressure": 75,
+			"baseline_type": 0
+		}
+	],
+	"codes": [
+		{
+			"name": "2012 WSEC Commercial"
+		},{
+			"name": "2012 WSEC Residential"
+		},{
+			"name": "2012 SEC Commercial",
+			"leakage_rate": "0.4",
+			"upper_pressure_bound": "80",
+			"lower_pressure_bound": "25",
+			"min_pressure_low": "25",
+			"min_pressure_high": "50",
+			"n_min": "0.45",
+			"n_max": "0.85",
+			"r_squared_min": "0.98"
+		},{
+			"name": "2012 SEC Residential"
+		},{
+			"name": "USACE"
+		}
+	]
+}

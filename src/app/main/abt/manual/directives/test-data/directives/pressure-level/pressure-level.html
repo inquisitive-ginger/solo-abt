@@ -1,0 +1,17 @@
+<ms-widget-front class="padding-16 md-primary-bg" ng-click="vm.editFanData()">
+		<div layout="row" layout-align="space-between center">
+            <div class="h4 font-weight-300 secondary-text">Target Pressure <strong>{{vm.target}} Pa</strong></div>
+        </div>
+		
+		<div layout="row" layout-wrap class="pl-0">
+			<div layout="row" class="pt-10 mr-16">
+	            <md-icon md-font-icon="icon-speedometer" class="s24 mr-5 md-accent-fg md-hue-1"></md-icon>
+	            <span class="md-title">{{vm.data[vm.target].pressure ? vm.data[vm.target].pressure + ' Pa' : 'N/A' }}</span>
+	        </div>
+
+	        <div layout="row" class="pt-10">
+	            <md-icon md-font-icon="icon-weather-windy" class="s24 mr-5 md-accent-fg md-hue-1"></md-icon>
+	            <span class="md-title">{{vm.data[vm.target].flow ? vm.data[vm.target].flow + ' CFM' : 'N/A' }}</span>
+	        </div>
+        </div>
+</ms-widget-front>

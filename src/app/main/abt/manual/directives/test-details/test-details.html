@@ -1,0 +1,94 @@
+<ng-form class="md-inline-form pv-10 ph-16" name="testDetailsForm" novalidate>
+	<div layout="column" flex>
+		<div layout="row">
+			<md-input-container flex>
+				<input type="text" ng-model="settings.testName" name="testName" placeholder="Test Name">
+				<div ng-messages="testDetailsForm.testName.$error" role="alert">
+                    <div ng-message="required">
+                        <span>This field is required.</span>
+                    </div>
+                </div>
+			</md-input-container>
+
+			<md-input-container flex>
+				<label>Test Standard</label>
+				<md-select ng-model="settings.standard" ng-change="updateSettings()">
+					<md-option ng-repeat="standard in settings.standards" value="{{standard.name}}">
+						{{standard.name}}
+					</md-option>
+				</md-select>
+			</md-input-container>
+
+			<md-input-container flex>
+				<label>Energy Code</label>
+				<md-select ng-model="settings.code" ng-change="updateCode()">
+					<md-option ng-repeat="code in settings.codes" value="{{code.name}}">
+						{{code.name}}
+					</md-option>
+				</md-select>
+			</md-input-container>
+		</div>
+
+		<div layout="row">
+			<md-input-container flex>
+				<input type="number" ng-model="settings.referencePressure" name="referencePressure" placeholder="Reference Pressure (Pa)" required>
+				<div ng-messages="testDetailsForm.referencePressure.$error" role="alert">
+					<div ng-message="required">
+						<span>This field is required.</span>
+					</div>
+				</div>
+			</md-input-container>
+
+			<md-input-container flex>
+				<input type="number" ng-model="settings.numberOfFans" name="numberOfFans" placeholder="# of Fans" ng-change="updateFans()">
+				<div ng-messages="testDetailsForm.numberOfFans.$error" role="alert">
+					<div ng-message="required">
+						<span>This field is required.</span>
+					</div>
+				</div>
+			</md-input-container>
+
+			<md-input-container flex>
+				<label>Test Direction</label>
+				<md-select ng-model="settings.testDirection">
+					<md-option value="Positive">
+						Positive
+					</md-option>
+
+					<md-option value="Negative">
+						Negative
+					</md-option>
+				</md-select>
+			</md-input-container>
+		</div>
+
+		<div layout="row">
+			<md-input-container flex>
+				<input type="number" ng-model="settings.startPressure" name="startPressure" placeholder="Start Pressure (Pa)" ng-change="updateLevels()" required>
+				<div ng-messages="testDetailsForm.startPressure.$error" role="alert">
+					<div ng-message="required">
+						<span>This field is required.</span>
+					</div>
+				</div>
+			</md-input-container>
+
+			<md-input-container flex>
+				<input type="number" ng-model="settings.stopPressure" name="stopPressure" placeholder="Stop Pressure (Pa)" ng-change="updateLevels()" required>
+				<div ng-messages="testDetailsForm.stopPressure.$error" role="alert">
+					<div ng-message="required">
+						<span>This field is required.</span>
+					</div>
+				</div>
+			</md-input-container>
+
+			<md-input-container flex>
+				<input type="number" ng-model="settings.numberOfSteps" name="numSteps" placeholder="# of Steps" ng-change="updateLevels()" required>
+				<div ng-messages="testDetailsForm.numSteps.$error" role="alert">
+					<div ng-message="required">
+						<span>This field is required.</span>
+					</div>
+				</div>
+			</md-input-container>
+		</div>
+	</div>
+</ng-form>

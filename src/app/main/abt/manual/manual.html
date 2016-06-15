@@ -1,0 +1,53 @@
+<div id="test-platform" class="page-layout simple right-sidenav" layout="row">
+	<div class="center" flex ms-scroll>
+		<!-- Header -->
+		<div class="header md-accent-bg" layout="row" layout-align="center">
+			<div class="pt-60" layout="row" layout-align="space-between center" flex>
+				<div layout="row" flex="100" layout-align="space-between center">
+					<div><span class="md-display-1 font-weight-300">Test Platform</span><span class="md-subhead secondary-text font-weight-300"> Manual</span></div>
+
+					<div layout="row md-primary-fg">
+							<md-button aria-label="pdf" class="md-icon-button" ng-click="vm.saveTestData()">
+								<md-icon md-font-icon="icon-download s30"></md-icon>
+								<md-tooltip class="ml-5">Save Test Data</md-tooltip>
+							</md-button>
+
+
+							<md-button aria-label="pdf" class="md-icon-button" ngf-select="vm.uploadTestData($file)" ngf-accept="'.json'" ng-model="file">
+								<md-icon md-font-icon="icon-upload s30"></md-icon>
+								<md-tooltip class="ml-5">Upload Test Data</md-tooltip>
+							</md-button>
+
+							<md-button aria-label="edit" class="md-icon-button" ng-disabled="!vm.showResults" ng-click="vm.showResults = false">
+								<md-icon md-font-icon="icon-table-edit s30"></md-icon>
+								<md-tooltip class="ml-5">Edit Data</md-tooltip>
+							</md-button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Setup and Data Entry Form Stepper -->
+		<form name="stepper" ng-show="!vm.showResults" ng-submit="vm.prepareForResults()" ms-stepper novalidate>
+			<ms-stepper-step ng-form="step1" step="1" step-title="'Test Details'">
+				<test-details 	settings="vm.settings" 
+								update-settings="vm.updateTestSettings()" 
+								update-levels="vm.updatePressureLevels()"
+								update-fans="vm.updateFanList()"
+								update-code="vm.updateCodeSettings()"></test-details>
+			</ms-stepper-step>
+
+			<ms-stepper-step ng-form="step2" step="2" step-title="'Building Details'">
+				<building-details settings="vm.settings"></building-details>
+			</ms-stepper-step>
+
+			<ms-stepper-step ng-form="step3" step="3" step-title="'Measurement Data'" flex="100">
+				<test-data settings='vm.settings' data="vm.testData"></test-data>
+			</ms-stepper-step>
+		</form>
+
+		<!-- Results Display -->
+		<test-results ng-if="vm.showResults" data="vm.testData" settings="vm.settings"></test-results>	
+	</div>
+</div>

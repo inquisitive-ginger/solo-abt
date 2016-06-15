@@ -1,0 +1,43 @@
+<ng-form class="md-inline-form pv-10 ph-16" name="buildingDetailsForm" novalidate>
+	<div layout="column" flex>
+		<div layout="row">
+			<md-input-container flex>
+				<input type="number" ng-model="settings.buildingHeight" name="buildingHeight" placeholder="Building Height (ft)">
+				<div ng-messages="buildingDetailsForm.buildingHeight.$error" role="alert">
+                    <div ng-message="required">
+                        <span>This field is required.</span>
+                    </div>
+                </div>
+			</md-input-container>
+
+			<md-input-container flex>
+				<input type="number" ng-model="settings.elevation" name="elevation" placeholder="Elevation (ft)">
+				<div ng-messages="buildingDetailsForm.elevation.$error" role="alert">
+                    <div ng-message="required">
+                        <span>This field is required.</span>
+                    </div>
+                </div>
+			</md-input-container>
+		</div>
+
+		<div layout="row">
+			<md-input-container flex>
+				<input type="number" ng-model="settings.envelopeArea" name="envelopeArea" placeholder="Envelope Area (ft&#178;)">
+				<div ng-messages="buildingDetailsForm.buildingHeight.$error" role="alert">
+                    <div ng-message="required">
+                        <span>This field is required.</span>
+                    </div>
+                </div>
+			</md-input-container>
+
+			<md-input-container flex>
+				<input type="number" ng-model="settings.envelopeVolume" name="envelopeVolume" placeholder="Envelope Volume (ft&#179;)">
+				<div ng-messages="buildingDetailsForm.buildingHeight.$error" role="alert">
+                    <div ng-message="required">
+                        <span>This field is required.</span>
+                    </div>
+                </div>
+			</md-input-container>
+		</div>
+	</div>
+</ng-form>

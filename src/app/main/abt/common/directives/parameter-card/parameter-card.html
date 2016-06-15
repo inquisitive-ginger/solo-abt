@@ -1,0 +1,26 @@
+<ms-widget>
+    <ms-widget-front class="p-16 h-135 md-primary-bg md-accent-fg">
+        <div layout="column" layout-align="space-between" flex>
+	        <div class="h4 text-uppercase secondary-text">
+	        	<span>{{vm.data.parameter}}</span> 
+	        	<span ng-show="vm.data.referenceValue">@ {{vm.data.referenceValue + ' ' + vm.data.referenceUnits}}</span>
+        	</div>
+
+	    	<div class="white-fg pt-5" layout="column">
+	            <span ng-class="{'md-display-2': vm.cardSize == 'large','md-headline': vm.cardSize == 'small'}" >
+	            	{{vm.data.parameterValue | number:vm.data.decimals}}  {{vm.data.parameterUnits}}
+	            </span>
+	          
+
+	            <div layout="row" layout-align="start center">
+	                <span>Allowable: {{vm.data.pfResult ? vm.data.allowableValue + ' ' + vm.data.allowableUnits : 'N/A'}}</span>
+	                <span 	ng-show="vm.data.pfResult" 
+	                		class="text-boxed-light" 
+	                		ng-class="{'md-green-500-bg': vm.data.pfResult == 'PASS', 'md-red-500-bg': vm.data.pfResult == 'FAIL'}">
+	                	{{vm.data.pfResult}}
+	                </span>
+	            </div>
+	        </div>
+	    </div>
+    </ms-widget-front>
+</ms-widget>

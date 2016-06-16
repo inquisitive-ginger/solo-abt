@@ -17,11 +17,17 @@
             correctedData               : correctedData,
             lnData                      : lnData,
             rSquared                    : rSquared,
+            sampleVariance              : sampleVariance,
+            sampleCovariance            : sampleCovariance,
+            nVariance                   : nVariance,
+            lnCVariance                 : lnCVariance,
+            ciBounds                    : ciBounds,
+            ciBoundsReg                 : ciBoundsReg,
+            regVariance                 : regVariance,
             regParameters               : regParameters,
             flowValue                   : flowValue,
             powerData                   : powerData,
             correctedFlowCoefficient    : correctedFlowCoefficient,
-            flowValue                   : flowValue,
             normalizedFlow              : normalizedFlow,
             effectiveLeakageArea        : effectiveLeakageArea
         }
@@ -117,6 +123,49 @@
             })
 
             return lnData;
+        }
+
+        // return sample variance of data
+        function sampleVariance (sample) {
+            return ss.sampleVariance(sample);
+        }
+
+        // return sample covariance of data
+        function sampleCovariance (data) {
+            return ss.sampleCovariance(data[0], data[1]);
+        }
+
+        // return variance of pressure exponent
+        function nVariance (varLnP, varQ, coVar, n, N) {
+            return (1 / Math.sqrt(varLnP)) * Math.sqrt((varQ - n * coVar) / ( N - 2 ));
+        }
+
+        // return variance of ln(C)
+        function lnCVariance (nVar, lnPData) {
+            return nVar * ss.rootMeanSquare(lnPData);
+        }
+
+        // return bounds for confidence interval
+        function ciBounds (val, variance, N) {
+            var tCiLimits = {
+                4: 2.776,
+                5: 2.571,
+                6: 2.447,
+                7: 2.365,
+                8: 2.306
+            };
+
+            return [val - variance * tCiLimits[N - 2], val +  variance * tCiLimits[N - 2]];
+        }
+
+        // return bounds for confidence interval base on reg variance
+        function ciBoundsReg (val, regVar) {
+            return [val * Math.exp(-1*regVar), val * Math.exp(regVar)]
+        }
+
+        // return regression variance based on reference value
+        function regVariance (nVar, N, varLnP, x, xBar) {
+            return nVar * Math.sqrt(varLnP * ((N - 1) / N) + Math.pow(x - xBar, 2));
         }
 
         // return coefficient of determination

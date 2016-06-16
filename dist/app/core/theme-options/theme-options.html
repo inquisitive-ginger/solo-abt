@@ -1,0 +1,24 @@
+<div class="ms-theme-options-panel" layout="row" layout-align="start start">
+
+    <div class="ms-theme-options-panel-button md-primary-bg" ng-click="toggleOptionsPanel()">
+        <md-icon md-font-icon="icon-cog" class="white-text"></md-icon>
+    </div>
+
+    <div class="ms-theme-options-list" layout="column">
+        <div class="theme-option">
+            <div class="option-title">Color Palette:</div>
+
+            <md-menu-item ng-repeat="(themeName, theme) in vm.themes.list" class="theme">
+                <md-button class="md-raised theme-button"
+                           aria-label="{{themeName}}" ng-click="vm.setActiveTheme(themeName)"
+                           ng-style="{'background-color': theme.primary.color,'border-color': theme.accent.color,'color': theme.primary.contrast1}"
+                           ng-class="themeName">
+                    <span>
+                        <md-icon ng-style="{'color': theme.primary.contrast1}" md-font-icon="icon-palette"></md-icon>
+                        <span>{{themeName}}</span>
+                    </span>
+                </md-button>
+            </md-menu-item>
+        </div>
+    </div>
+</div>

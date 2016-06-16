@@ -1,0 +1,11 @@
+<md-toolbar class="navigation-header md-whiteframe-1dp" layout="row" layout-align="space-between center">
+    <div class="logo" layout="row" layout-align="start center">
+        <span ng-class="{'bee-logo': vm.fs.themes.active.name == 'bee', 'solo-logo':  vm.fs.themes.active.name == 'default'}">{{vm.fs.themes.active.name === 'default' ? 'S' : 'B' }}</span>
+        <span class="logo-text">soloveda-abt</span>
+    </div>
+
+    <md-icon class="fold-toggle s18" md-font-icon="icon-backburger" hide show-gt-sm
+             ng-click="vm.toggleMsNavigationFolded()"></md-icon>
+</md-toolbar>
+
+<ms-navigation class="scrollable" folded="vm.folded" ms-scroll="vm.msScrollOptions"></ms-navigation>

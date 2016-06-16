@@ -1,0 +1,87 @@
+<div layout="row" flex="100" layout-wrap>
+	<parameter-card card-size="'large'" data="vm.totalLeakageResult" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="33"></parameter-card>
+	<parameter-card card-size="'large'" data="vm.normalizedFlowResult" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="33"></parameter-card>
+	<parameter-card card-size="'large'" data="vm.elaResult" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="33"></parameter-card>
+</div>
+
+<div layout="row" flex="100" layout-wrap>
+	<div layout="column" flex="100" flex-gt-md="50" layout-wrap>
+		<ms-widget>
+		    <ms-widget-front class="white-bg">
+		        <div class="simple-table-container" ms-responsive-table>
+		        	<div layout="row" layout-align="space-between">
+		        		<div class="table-title">Pressure &amp; Flow Data</div>
+		        		<dir-pagination-controls class="pagination mt-20 mr-16" pagination-id="data-table-pagination"></dir-pagination-controls>
+		        	</div>
+		            
+
+		            <table class="simple">
+		                <thead>
+		                    <tr>
+		                        <th ng-repeat="column in vm.pfTableData.columns">
+		                            {{column}}
+		                        </th>
+		                    </tr>
+		                </thead>
+
+		                <tbody>
+		                    <tr dir-paginate="row in vm.pfTableData.rows | itemsPerPage: 5" pagination-id="data-table-pagination">
+		                        <td ng-repeat="cell in row">
+		                            <span class="{{cell.classes}}">
+		                                {{cell.value | number: cell.decimals}}
+		                            </span>
+		                        </td>
+		                    </tr>
+		                </tbody>
+		            </table>
+		        </div>
+		    </ms-widget-front>
+		</ms-widget>
+
+		<ms-widget>
+		    <ms-widget-front class="white-bg">
+		        <div class="simple-table-container" ms-responsive-table>
+		        	<div layout="row" layout-align="space-between">
+		            	<div class="table-title ">95% Confidence Intervals</div>
+		            	<dir-pagination-controls class="pagination mt-20 mr-16" pagination-id="ci-table-pagination"></dir-pagination-controls>
+		            </div>
+
+		            <table class="simple">
+		                <thead>
+		                    <tr>
+		                        <th ng-repeat="column in vm.ciTableData.columns">
+		                            {{column}}
+		                        </th>
+		                    </tr>
+		                </thead>
+
+		                <tbody>
+		                    <tr dir-paginate="row in vm.ciTableData.rows | itemsPerPage: 3" pagination-id="ci-table-pagination">
+		                        <td ng-repeat="cell in row">
+		                            <span class="{{cell.classes}}">
+		                                {{cell.value}}
+		                            </span>
+		                        </td>
+		                    </tr>
+		                </tbody>
+		            </table>
+		        </div>
+		    </ms-widget-front>
+		</ms-widget>
+	</div>
+
+	<div layout="column" flex="100" flex-gt-md="50">
+		<ms-widget flippable="false">
+		    <ms-widget-front class="white-bg content">
+		    	<div class="md-title font-weight-400">Air Leakage vs. Pressure</div>
+		        <nvd3 options="vm.scatterChart.options" data="vm.scatterChart.data"></nvd3>
+		    </ms-widget-front>
+		</ms-widget>
+
+		<div layout="row">
+			<parameter-card card-size="'small'" data="vm.flowCoefficientResult" layout="column" flex></parameter-card>
+			<parameter-card card-size="'small'" data="vm.pressureExponent" layout="column" flex></parameter-card>
+			<parameter-card card-size="'small'" data="vm.rSquaredResult" layout="column" flex></parameter-card>
+		</div>
+	</div>
+</div>

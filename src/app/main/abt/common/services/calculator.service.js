@@ -29,7 +29,9 @@
             powerData                   : powerData,
             correctedFlowCoefficient    : correctedFlowCoefficient,
             normalizedFlow              : normalizedFlow,
-            effectiveLeakageArea        : effectiveLeakageArea
+            effectiveLeakageArea        : effectiveLeakageArea,
+            airChangesPerHour           : airChangesPerHour,
+            allowableLeakage            : allowableLeakage
         }
 
         return service;
@@ -105,11 +107,15 @@
 
         // return trendline data set based on power model
         function powerData(pressures, c, n) {
-            var data = [];
+            var min  = pressures[0] - (pressures[1] - pressures[0]);
+            var max  = pressures[pressures.length - 1] + (pressures[1] - pressures[0]);
+            var data = [{x: min, y: flowValue(c, n, min)}];
 
             _.each(pressures, function(p, i) {
                 data.push({x: p, y: flowValue(c, n, p)});
             })
+
+            data.push({x: max, y: flowValue(c, n, max)});
 
             return data;
         }
@@ -203,6 +209,19 @@
             return 0.1855 * c * Math.pow((rho / 2), 0.5) * Math.pow(paToInH2O(p), (n - 0.5));
         }
 
+        // return air changes per hour based on volume and total flow
+        function airChangesPerHour(flow, volume) {
+            return ( 60 * flow ) / volume;
+        }
+
+        // return allowable leakage based on engery code requirements
+        function allowableLeakage(settings) {
+            return settings.resultMetric == 'nf' ?
+                    settings.envelopeArea * settings.allowableLeakageRate :
+                    (settings.envelopeVolume * settings.allowableLeakageRate) / 60;
+        }
+
+        // convert Pascals to "H2O
         function paToInH2O (pa) {
             return pa / 249.088;
         }

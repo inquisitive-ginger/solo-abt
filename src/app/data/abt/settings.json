@@ -35,9 +35,12 @@
 		{
 			"name": "2012 WSEC Commercial"
 		},{
-			"name": "2012 WSEC Residential"
+			"name": "2012 WSEC Residential",
+			"result_metric": "ach",
+			"leakage_rate": 5
 		},{
 			"name": "2012 SEC Commercial",
+			"result_metric": "nf",
 			"leakage_rate": "0.4",
 			"upper_pressure_bound": "80",
 			"lower_pressure_bound": "25",

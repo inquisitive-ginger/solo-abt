@@ -48,6 +48,7 @@
             var index = utils.indexOf(vm.settings.codes, 'name', vm.settings.code);
             var code = vm.settings.codes[index];
 
+            vm.settings.resultMetric            = code.result_metric;
             vm.settings.allowableLeakageRate    = code.leakage_rate;
             vm.settings.pressureExpBounds       = [code.n_min, code.n_max];
             vm.settings.rSquaredMin             = code.r_squared_min;

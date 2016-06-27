@@ -44,8 +44,9 @@
 									vm.settings.pressureDirection == 'Positive' ? vm.insideViscosity : vm.outsideViscosity);
 			vm.powerData 		= calcService.powerData(vm.settings.levels, vm.rawFlowCoefficient, vm.pressureExponent);
 			vm.totalLeakage 	= calcService.flowValue(vm.rawFlowCoefficient, vm.pressureExponent, vm.settings.referencePressure);
-			vm.allowableLeakage = vm.settings.envelopeArea * vm.settings.allowableLeakageRate;
+			vm.allowableLeakage = calcService.allowableLeakage(vm.settings);
 			vm.leakageRate 		= calcService.normalizedFlow(vm.totalLeakage, vm.settings.envelopeArea);
+			vm.ach 				= calcService.airChangesPerHour(vm.totalLeakage, vm.settings.envelopeVolume);
 
 			vm.effectiveLA 		= calcService.effectiveLeakageArea(
 									vm.flowCoefficient, 
@@ -63,8 +64,6 @@
 			vm.totalLeakageCI 		= calcService.ciBoundsReg(vm.totalLeakage, vm.regVarianceAtRef);
 			vm.leakageRateCI		= calcService.ciBoundsReg(vm.leakageRate, vm.regVarianceAtRef);
 			vm.leakageAreaCI		= calcService.ciBoundsReg(vm.effectiveLA, vm.regVarianceAtRef);
-
-			console.log(vm);
 
 			vm.totalLeakageResult = {
 				parameter: 'Total Leakage',
@@ -88,6 +87,17 @@
 				allowableUnits: 'CFM/ft²'
 			}
 
+			vm.achResult = {
+				parameter: 'Air Changes Per Hour',
+				parameterUnits: 'ACH',
+				parameterValue:$filter('number')(vm.ach, 2),
+				referenceUnits: 'Pa',
+				referenceValue: vm.settings.referencePressure,
+				pfResult: vm.ach < vm.settings.allowableLeakageRate ? 'PASS' : 'FAIL',
+				allowableValue: vm.settings.allowableLeakageRate,
+				allowableUnits: 'ACH'
+			}
+
 			vm.elaResult = {
 				parameter: 'Effective Leakage Area',
 				parameterUnits: 'ft²',
@@ -104,16 +114,17 @@
 			vm.pressureExponentResult = {
 				parameter: 'Pressure Exponent (n)',
 				parameterValue: $filter('number')(vm.pressureExponent, 2),
-				pfResult: 	vm.pressureExponent > vm.settings.pressureExpBounds[0] && 
-							vm.pressureExponent < vm.settings.pressureExpBounds[1] ? 
-							'PASS' : 'FAIL',
+				pfResult: vm.settings.pressureExpBounds[0] ? 
+								( vm.pressureExponent > vm.settings.pressureExpBounds[0] && 
+								vm.pressureExponent < vm.settings.pressureExpBounds[1] ? 
+								'PASS' : 'FAIL' ) : undefined,
 				allowableValue: vm.settings.pressureExpBounds[0] + ' < n < ' + vm.settings.pressureExpBounds[1]
 			}
 
 			vm.rSquaredResult = {
 				parameter: 'R²',
 				parameterValue: $filter('number')(vm.rSquared, 4),
-				pfResult: vm.rSquared > vm.settings.rSquaredMin ? 'PASS' : 'FAIL',
+				pfResult: vm.settings.rSquaredMin ? (vm.rSquared > vm.settings.rSquaredMin ? 'PASS' : 'FAIL') : undefined,
 				allowableValue: 'R² > ' + vm.settings.rSquaredMin
 			}
 
@@ -133,6 +144,7 @@
 		                type: 'multiChart',
 		                height: 450,
 		                color: d3.scale.category10().range(),
+		                useFixedDomain: true,
 		                useInteractiveGuideline: false,
 		                x: function(d){ return d.x; },
               			y: function(d){ return d.y; },
@@ -143,11 +155,11 @@
 								var rows = 
 									"<tr>" +
 										"<td class='key'>" + 'Pressure: ' + "</td>" +
-										"<td class='x-value'>" + e.value + "</td>" + 
+										"<td class='x-value'>" + e.value.toFixed(1) + "</td>" + 
 									"</tr>" +
 									"<tr>" +
 										"<td class='key'>" + 'Air Leakage: ' + "</td>" +
-										"<td class='x-value'><strong>" + (series.value?series.value.toFixed(0):0) + "</strong></td>" +
+										"<td class='x-value'><strong>" + (series.value ? series.value.toFixed(0): 0) + "</strong></td>" +
 									"</tr>";
 
 								var header = 
@@ -186,14 +198,13 @@
 	            		key: vm.settings.testDirection == 'Positive' ? 'Pressurization Data' : 'Depressurization Data',
 	            		values: formatDataForChart(vm.correctedData),
 	            		yAxis: 1,
-	            		type: 'scatter',
-						strokeWidth: 10
+	            		type: 'line'
 			        },
 			        {
 			        	key: 'Trendline',
 			        	values: vm.powerData,
-	            		yAxis: 1,
 	            		type: 'line',
+	            		yAxis: 1,
 						classed: 'dashed'
 			        }
 	            ]
@@ -241,7 +252,7 @@
 	        	var chartData = [];
 
 	        	_.each(data, function(data, index) {
-	        		chartData.push({x: data.x, y: data.y, size: .5});
+	        		chartData.push({x: data.x , y: data.y, size: .75});
 	        	})
 
 	        	return chartData;

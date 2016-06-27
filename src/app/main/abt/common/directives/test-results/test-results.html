@@ -1,6 +1,7 @@
 <div layout="row" flex="100" layout-wrap>
 	<parameter-card card-size="'large'" data="vm.totalLeakageResult" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="33"></parameter-card>
-	<parameter-card card-size="'large'" data="vm.normalizedFlowResult" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="33"></parameter-card>
+	<parameter-card card-size="'large'" data="vm.normalizedFlowResult" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="33" ng-show="vm.settings.resultMetric == 'nf'"></parameter-card>
+	<parameter-card card-size="'large'" data="vm.achResult" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="33" ng-show="vm.settings.resultMetric == 'ach'"></parameter-card>
 	<parameter-card card-size="'large'" data="vm.elaResult" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="33"></parameter-card>
 </div>
 
@@ -74,7 +75,7 @@
 		<ms-widget flippable="false">
 		    <ms-widget-front class="white-bg content">
 		    	<div class="md-title font-weight-400">Air Leakage vs. Pressure</div>
-		        <nvd3 options="vm.scatterChart.options" data="vm.scatterChart.data"></nvd3>
+		        <nvd3 id="chart" options="vm.scatterChart.options" data="vm.scatterChart.data"></nvd3>
 		    </ms-widget-front>
 		</ms-widget>
 
